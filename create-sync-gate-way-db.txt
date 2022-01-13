@@ -1,0 +1,14 @@
+Create Sync DB
+curl -X PUT "http://localhost:4985/feedlotdb/" -H "Authorization: Basic YWxpY2U6UGFzczEyMyQ=" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"bucket\": \"feedlot\", \"name\": \"feedlotdb\", \"offline\": false}"
+
+Create A Role
+curl --location --request PUT "http://127.0.0.1:4985/feedlotdb/_role/admin_role" -H "Authorization: Basic YWxpY2U6UGFzczEyMyQ=" -H "Content-Type: application/json" --data-raw "{ \"name\": \"admin_role\", \"admin_channels\": \[\"admin_channel\"\] }"
+
+Get Role
+curl --location --request GET "http://127.0.0.1:4985/feedlotdb/_role" -H "Authorization: Basic YWxpY2U6UGFzczEyMyQ=" -H "Content-Type: application/json"
+
+Create A User
+curl -X POST "http://localhost:4985/feedlotdb/_user/" -H "Authorization: Basic YWxpY2U6UGFzczEyMyQ=" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"name\": \"alice\", \"password\": \"Pass123$\", \"admin_channels\": [ \"admin_channel\" ], \"admin_roles\": [ \"admin_role\" ]}"
+
+Get Users
+curl -X GET "http://localhost:4985/feedlotdb/_user/" -H "Authorization: Basic YWxpY2U6UGFzczEyMyQ=" -H "accept: application/json" -H "Content-Type: application/json"

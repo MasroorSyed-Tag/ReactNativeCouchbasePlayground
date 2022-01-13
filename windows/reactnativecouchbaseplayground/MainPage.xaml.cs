@@ -83,24 +83,24 @@ namespace reactnativecouchbaseplayground
             }
 
             // Create replicator to push and pull changes to and from the cloud
-            //var targetEndpoint = new URLEndpoint(new Uri("ws://localhost:4984/getting-started-db"));
-            //var replConfig = new ReplicatorConfiguration(database, targetEndpoint);
+            var targetEndpoint = new URLEndpoint(new Uri("ws://localhost:4984/feedlotdb"));
+            var replConfig = new ReplicatorConfiguration(database, targetEndpoint);
 
             //// Add authentication
-            //replConfig.Authenticator = new BasicAuthenticator("john", "pass");
+            replConfig.Authenticator = new BasicAuthenticator("alice", "Pass123$");
 
-            //// Create replicator (make sure to add an instance or static variable
-            //// named _Replicator)
-            //var _Replicator = new Replicator(replConfig);
-            //_Replicator.AddChangeListener((sender, args) =>
-            //{
-            //    if (args.Status.Error != null)
-            //    {
-            //        Debug.WriteLine($"Error :: {args.Status.Error}");
-            //    }
-            //});
+            // Create replicator (make sure to add an instance or static variable
+            // named _Replicator)
+            var _Replicator = new Replicator(replConfig);
+            _Replicator.AddChangeListener((sender, args) =>
+            {
+                if (args.Status.Error != null)
+                {
+                    Debug.WriteLine($"Error With Replicator :: {args.Status.Error}");
+                }
+            });
 
-            //_Replicator.Start();
+            _Replicator.Start();
 
             // Later, stop and dispose the replicator *before* closing/disposing the
         }
