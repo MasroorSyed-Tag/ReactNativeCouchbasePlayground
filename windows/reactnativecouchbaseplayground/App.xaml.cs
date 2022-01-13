@@ -8,6 +8,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 #endif
 
+using System;
+
+
 namespace reactnativecouchbaseplayground
 {
     sealed partial class App : ReactApplication
