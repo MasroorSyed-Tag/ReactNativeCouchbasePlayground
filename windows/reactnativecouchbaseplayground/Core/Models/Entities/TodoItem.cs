@@ -1,4 +1,4 @@
-﻿namespace ReactNativeCouchbasePlayground.Core.Models
+﻿namespace reactnativecouchbaseplayground
 {
     public class TodoItem
     {

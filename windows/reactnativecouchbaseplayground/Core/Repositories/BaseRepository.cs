@@ -1,7 +1,7 @@
 ﻿using System;
 using Couchbase.Lite;
 
-namespace ReactNativeCouchbasePlayground.Core.Repositories
+namespace reactnativecouchbaseplayground
 {
     public abstract class BaseRepository : IDisposable
     {

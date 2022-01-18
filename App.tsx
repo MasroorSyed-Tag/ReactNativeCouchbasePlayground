@@ -21,6 +21,7 @@ import {
   Platform,
 } from 'react-native';
 import Task from './components/Task';
+import { NativeModules, NativeEventEmitter } from 'react-native';
 
 export default function App() {
   const [task, setTask] = useState<string | undefined>('');
@@ -28,6 +29,10 @@ export default function App() {
 
   const handleAddTask = () => {
     Keyboard.dismiss();
+    NativeModules.TodoItemRepository.save("test1", task, function () {
+      console.log('f');
+    });
+
     // @ts-ignore
     setTaskItems([...taskItems, task]);
     // @ts-ignore

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Couchbase.Lite;
 using Couchbase.Lite.Query;
-using ReactNativeCouchbasePlayground.Core.Interfaces;
-using ReactNativeCouchbasePlayground.Core.Models;
+using Microsoft.ReactNative.Managed;
 
-namespace ReactNativeCouchbasePlayground.Core.Repositories
+namespace reactnativecouchbaseplayground
 {
+    [ReactModule]
     public sealed class TodoItemRepository: BaseRepository, ITodoItemRepository
     {
         IQuery _itemQuery;
@@ -78,8 +79,15 @@ namespace ReactNativeCouchbasePlayground.Core.Repositories
             return todoItem;
         }
 
-        public bool SaveAsync(TodoItem todoItem)
+        [ReactMethod("save")]
+        public bool SaveAsync(string id, string des)
         {
+            Debug.WriteLine("Inside Save");
+            var todoItem = new TodoItem
+            {
+                Id = id,
+                Description = des
+            };
             try
             {
                 if (todoItem != null)
@@ -88,8 +96,11 @@ namespace ReactNativeCouchbasePlayground.Core.Repositories
                     mutableDocument.SetString("Description", todoItem.Description);
 
                     var database = GetDatabase();
+                    Debug.WriteLine("The database");
+                    Debug.WriteLine(database);
 
                     database.Save(mutableDocument);
+                    Debug.WriteLine("Saved");
 
                     return true;
                 }

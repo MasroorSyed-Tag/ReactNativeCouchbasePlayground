@@ -28,9 +28,6 @@ using Couchbase.Lite;
 using Couchbase.Lite.Query;
 using Couchbase.Lite.Sync;
 using System.Diagnostics;
-using ReactNativeCouchbasePlayground.Core.Interfaces;
-using ReactNativeCouchbasePlayground.Core.Repositories;
-using ReactNativeCouchbasePlayground.Core.Models;
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace reactnativecouchbaseplayground
@@ -53,13 +50,13 @@ namespace reactnativecouchbaseplayground
             Debug.WriteLine("==================================");
             Debug.WriteLine("Saving");
             // Create a new document (i.e. a record) in the database
-            todoItemRepository.SaveAsync(
-                new TodoItem
-                {
-                    Id = "abc",
-                    Description = "Description"
+            // todoItemRepository.SaveAsync(
+            //    new TodoItem
+            //    {
+            //        Id = "abc",
+            //        Description = "Description"
 
-                });
+            //    });
 
             Debug.WriteLine("Hopefully Saved");
             Debug.WriteLine("==================================");

@@ -5,7 +5,7 @@ using Couchbase.Lite.DI;
 using Couchbase.Lite.Sync;
 using System.Diagnostics;
 
-namespace ReactNativeCouchbasePlayground.Core.Repositories
+namespace reactnativecouchbaseplayground
 {
     public class DatabaseManager : IDisposable
     {

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using ReactNativeCouchbasePlayground.Core.Models;
 
-namespace ReactNativeCouchbasePlayground.Core.Interfaces
+namespace reactnativecouchbaseplayground
 {
     public interface ITodoItemRepository: IDisposable
     {
         List<TodoItem> GetAllAsync();
         TodoItem GetAsync(string id);
-        bool SaveAsync(TodoItem todoItem);
+        bool SaveAsync(string id, string des);
         void StartReplicationForCurrentUser();
     }
 }
