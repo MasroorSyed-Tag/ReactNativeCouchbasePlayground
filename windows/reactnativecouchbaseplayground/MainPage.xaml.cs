@@ -48,24 +48,6 @@ namespace reactnativecouchbaseplayground
             TodoItemRepository todoItemRepository = new TodoItemRepository();
 
             Debug.WriteLine("==================================");
-            Debug.WriteLine("Saving");
-            // Create a new document (i.e. a record) in the database
-            // todoItemRepository.SaveAsync(
-            //    new TodoItem
-            //    {
-            //        Id = "abc",
-            //        Description = "Description"
-
-            //    });
-
-            Debug.WriteLine("Hopefully Saved");
-            Debug.WriteLine("==================================");
-
-            Debug.WriteLine("Getting A Single Todo");
-            var singleTodo = todoItemRepository.GetAsync("abc");
-            Debug.WriteLine(singleTodo.Id);
-            Debug.WriteLine(singleTodo.Description);
-            Debug.WriteLine("==================================");
 
             Debug.WriteLine("getting all todo");
             var alltodo = todoItemRepository.GetAllAsync();

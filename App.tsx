@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -22,19 +22,34 @@ import {
 } from 'react-native';
 import Task from './components/Task';
 import { NativeModules, NativeEventEmitter } from 'react-native';
+import { Todo } from './Interfaces/Todo.model';
+
+const TodoEventEmitter = new NativeEventEmitter(NativeModules.TodoItemRepository);
+const TodoItemRepository = NativeModules.TodoItemRepository;
 
 export default function App() {
   const [task, setTask] = useState<string | undefined>('');
-  const [taskItems, setTaskItems] = useState<string[] | undefined>([]);
+  const [taskItems, setTaskItems] = useState<Todo[]>([]);
+
+  useEffect(() => {
+    TodoEventEmitter.addListener('SaveEvent', fetchTodo);
+    fetchTodo();
+  }, []);
+
+  const fetchTodo = () => {
+    TodoItemRepository.getTodos( function (result: Todo[]) {
+      console.log(result);
+      setTaskItems(result);
+      console.log("Event was fired with: " + result);
+    });
+  }
+
 
   const handleAddTask = () => {
     Keyboard.dismiss();
-    NativeModules.TodoItemRepository.save("test1", task, function () {
-      console.log('f');
-    });
-
-    // @ts-ignore
-    setTaskItems([...taskItems, task]);
+    TodoItemRepository.save(generateId(), task, function () {
+      console.log("Saving");
+      });
     // @ts-ignore
     setTask(null);
   };
@@ -44,6 +59,18 @@ export default function App() {
     itemsCopy.splice(index, 1);
     setTaskItems(itemsCopy);
   };
+
+  const generateId = () => {
+    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = ' ';
+    const charactersLength = characters.length;
+    const length = 10;
+    for ( let i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+  }
 
   return (
     <View style={styles.container}>
@@ -63,7 +90,7 @@ export default function App() {
                 <TouchableOpacity
                   key={index}
                   onPress={() => completeTask(index)}>
-                  <Task text={item} />
+                  <Task text={item.Description} />
                 </TouchableOpacity>
               );
             })}

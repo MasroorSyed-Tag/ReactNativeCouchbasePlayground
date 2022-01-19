@@ -8,13 +8,14 @@ using Microsoft.ReactNative.Managed;
 namespace reactnativecouchbaseplayground
 {
     [ReactModule]
-    public sealed class TodoItemRepository: BaseRepository, ITodoItemRepository
+    class TodoItemRepository: BaseRepository, ITodoItemRepository
     {
         IQuery _itemQuery;
 
         public TodoItemRepository() : base("todos")
         { }
 
+        [ReactMethod("getTodos")]
         public List<TodoItem> GetAllAsync()
         {
             var todoItems = new List<TodoItem>();
@@ -25,19 +26,34 @@ namespace reactnativecouchbaseplayground
 
                 if (database != null)
                 {
-                    _itemQuery = QueryBuilder.Select(SelectResult.All())
+                    _itemQuery = QueryBuilder.Select(
+                        SelectResult.Expression(Meta.ID),
+                        SelectResult.All())
                         .From(DataSource.Database(database));
                 }
 
                 var resultSet = _itemQuery.Execute();
-                foreach (var result in resultSet.AllResults())
+                var results = resultSet.AllResults();
+                // Debug.WriteLine("Count");
+                // Debug.WriteLine(results.Count);
+                // Debug.WriteLine("----------------------------------------------");
+                // Debug.WriteLine(resultSet.AllResults().Count);
+                Debug.WriteLine("----------------------------------------------");
+
+                foreach (var result in results)
                 {
-                    var dictionary = result.GetDictionary("Todos"); // <2>
+                    //Debug.WriteLine(result.ToJSON());
+                    var dictionary = result.GetDictionary("todos"); // <2>
+
+                    Debug.WriteLine(result.GetString("id"));
+                    Debug.WriteLine(dictionary.GetString("Description"));
+
+                    //Debug.WriteLine(dictionary);
                     if (dictionary != null)
                     {
                         var item = new TodoItem // <3>
                         {
-                            Id = dictionary.GetString("Id"), // <4>
+                            Id = result.GetString("id"), // <4>
                             Description = dictionary.GetString("Description")
                         };
                         
@@ -50,7 +66,11 @@ namespace reactnativecouchbaseplayground
             {
                 Console.WriteLine($"TodoItemRepository Exception: {ex.Message}");
             }
-            
+
+            // Debug.WriteLine("returning");
+            todoItems.ForEach(Console.WriteLine);
+
+
             return todoItems;
         }
 
@@ -102,6 +122,8 @@ namespace reactnativecouchbaseplayground
                     database.Save(mutableDocument);
                     Debug.WriteLine("Saved");
 
+                    SaveEvent(true);
+
                     return true;
                 }
             }
@@ -112,6 +134,9 @@ namespace reactnativecouchbaseplayground
 
             return false;
         }
+
+        [ReactEvent]
+        public Action<bool> SaveEvent { get; set; }
 
         public void StartReplicationForCurrentUser()
         {
