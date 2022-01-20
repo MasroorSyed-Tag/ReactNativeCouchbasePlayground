@@ -99,6 +99,25 @@ namespace reactnativecouchbaseplayground
             return todoItem;
         }
 
+        [ReactMethod("deleteTodos")]
+
+        public bool DeleteTodoItem(string id)
+        {
+            bool delStatus = false;
+            try {
+                var database = GetDatabase();
+                Debug.WriteLine("Deleting a document with id:\t" + id);
+                var document = database?.GetDocument(id);
+                Debug.WriteLine(document);
+                database.Delete(document);
+                delStatus = true;
+
+            } catch (CouchbaseLiteException e) {
+                
+            }
+            return delStatus;
+        }
+
         [ReactMethod("save")]
         public bool SaveAsync(string id, string des)
         {

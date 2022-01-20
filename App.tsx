@@ -37,10 +37,11 @@ export default function App() {
   }, []);
 
   const fetchTodo = () => {
+    console.log("inside fetch todo");
     TodoItemRepository.getTodos( function (result: Todo[]) {
+      console.log("fetching");
       console.log(result);
       setTaskItems(result);
-      console.log("Event was fired with: " + result);
     });
   }
 
@@ -54,10 +55,13 @@ export default function App() {
     setTask(null);
   };
 
-  const completeTask = (index: number) => {
-    let itemsCopy = [...taskItems];
-    itemsCopy.splice(index, 1);
-    setTaskItems(itemsCopy);
+  const completeTask = (id: string) => {
+
+    TodoItemRepository.deleteTodos( id, function () {
+      console.log("after del");
+      fetchTodo();
+    });
+    // setTaskItems(itemsCopy);
   };
 
   const generateId = () => {
@@ -89,7 +93,7 @@ export default function App() {
               return (
                 <TouchableOpacity
                   key={index}
-                  onPress={() => completeTask(index)}>
+                  onPress={() => completeTask(item.Id)}>
                   <Task text={item.Description} />
                 </TouchableOpacity>
               );

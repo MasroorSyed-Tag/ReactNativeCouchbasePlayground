@@ -7,6 +7,7 @@ namespace reactnativecouchbaseplayground
     {
         List<TodoItem> GetAllAsync();
         TodoItem GetAsync(string id);
+        bool DeleteTodoItem(string id);
         bool SaveAsync(string id, string des);
         void StartReplicationForCurrentUser();
     }

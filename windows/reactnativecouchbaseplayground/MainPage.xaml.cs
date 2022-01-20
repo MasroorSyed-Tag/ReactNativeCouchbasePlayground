@@ -45,20 +45,7 @@ namespace reactnativecouchbaseplayground
             reactRootView.ReactNativeHost = app.Host;
 
             //// Get the database (and create it if it doesn't exist)
-            TodoItemRepository todoItemRepository = new TodoItemRepository();
-
-            Debug.WriteLine("==================================");
-
-            Debug.WriteLine("getting all todo");
-            var alltodo = todoItemRepository.GetAllAsync();
-
-            foreach (var todo in alltodo)
-            {
-                Debug.WriteLine(todo.Id);
-                Debug.WriteLine(todo.Description);
-                Debug.WriteLine("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-            }
-
+            var todoItemRepository = new TodoItemRepository();
 
             todoItemRepository.StartReplicationForCurrentUser();
 
