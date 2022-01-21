@@ -13,7 +13,7 @@ networks:
 
 services:
   couchbase:
-    image: couchbase:latest
+    image: couchbase:enterprise-7.0.3
     restart: always
     ports:
       - '8091-8095:8091-8095'
@@ -26,7 +26,7 @@ services:
       - couchbase:/opt/couchbase/var
 
   replica:
-    image: couchbase:latest
+    image: couchbase:enterprise-7.0.3
     restart: always
     ports:
       - '9091:8091'
@@ -37,7 +37,7 @@ services:
       - couchbase_replica:/opt/couchbase/var
 
   replica2:
-    image: couchbase:latest
+    image: couchbase:enterprise-7.0.3
     restart: always
     ports:
       - '10091:8091'

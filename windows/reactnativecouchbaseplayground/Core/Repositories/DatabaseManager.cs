@@ -33,6 +33,7 @@ namespace reactnativecouchbaseplayground
                 {
                     var defaultDirectory = Service.GetInstance<IDefaultDirectoryResolver>().DefaultDirectory();
 
+                    Debug.WriteLine("=====hahahaha");
                     Debug.WriteLine(defaultDirectory);
 
 
@@ -42,7 +43,7 @@ namespace reactnativecouchbaseplayground
                         Directory = defaultDirectory
                     };
 
-                    _database = new Database(_databaseName);
+                    _database = new Database(_databaseName, databaseConfig);
                 }
             }
 
@@ -64,7 +65,9 @@ namespace reactnativecouchbaseplayground
                 ReplicatorType = replicationType, // <2>
                 Continuous = continuous, // <3>
                 Authenticator = new BasicAuthenticator(username, password), // <4>
-                Channels = channels?.Select(x => $"channel.{x}").ToArray() // <5>
+                Channels = channels?.Select(x => $"channel.{x}").ToArray(), // <5>
+                Heartbeat = new TimeSpan(0, 0, 1)
+
             };
 
             _replicator = new Replicator(configuration);
