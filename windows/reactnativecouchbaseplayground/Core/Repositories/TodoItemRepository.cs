@@ -159,8 +159,8 @@ namespace reactnativecouchbaseplayground
 
         public void StartReplicationForCurrentUser()
         {
-            base.StartReplicationAsync("alice",
-                "Pass123$",
+            base.StartReplicationAsync("admin",
+                "Decisive2021.",
                 new string[] { "admin_channel" });
         }
         public override void Dispose()
